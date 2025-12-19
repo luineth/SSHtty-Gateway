@@ -2,6 +2,8 @@ services:
   sshtty-gateway:
     image: ghcr.io/luineth/sshtty-gateway:main
     container_name: sshtty-gateway
+    #environment:
+    #  -DEFAULT_DEST=user@example.com
     ports:
       - "23:2323"
     #optionally, mount an .ssh folder to maintain known hosts and ssh keys
