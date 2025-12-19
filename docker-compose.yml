@@ -3,10 +3,12 @@ services:
     image: ghcr.io/luineth/sshtty-gateway:main
     container_name: sshtty-gateway
     #environment:
-    #  -DEFAULT_DEST=user@example.com
+    #  -DEFAULT_DEST=user@example.com # Optional speed dial host
     ports:
       - "23:2323"
     #optionally, mount an .ssh folder to maintain known hosts and ssh keys
+    #SSHtty will attempt to use keys id_rsa or id_ed25519 in .ssh
+    #(which must have those exact names)
     #volumes:
     #  - path/to/.ssh:/home/gateway/.ssh
     restart: unless-stopped
