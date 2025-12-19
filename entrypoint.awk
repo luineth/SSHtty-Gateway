@@ -17,10 +17,7 @@ BEGIN {
 function ssh(dest) {
 	cmd = "dbclient -o StrictHostKeyChecking=accept-new "
 
-	key = "/home/gateway/.ssh/id_ed25519"
-	# fallback to rsa if ed25519 isn't available
-	if ((getline < key) < 0)
-		key = "/home/gateway/.ssh/id_rsa"
+	key = "/home/gateway/.ssh/id_dropbear"
 
 	if ((getline < key) >= 0) {
 		close(key)
