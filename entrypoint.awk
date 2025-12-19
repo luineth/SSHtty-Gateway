@@ -3,10 +3,10 @@
 BEGIN {
 	default_dest = ENVIRON["DEFAULT_DEST"]
 	printf("Connected to SSH Gateway. ")
-	getdest()
+	promptdest()
 }
 
-{ getdest() }
+{ promptdest() }
 
 /^q(uit)?$/ { exit }
 
@@ -15,10 +15,23 @@ BEGIN {
 /^[A-Za-z0-9_.-]+@[A-Za-z0-9_.-]+$/ { ssh($0) }
 
 function ssh(dest) {
-	system("dbclient -o StrictHostKeyChecking=accept-new " dest)
+	cmd = "dbclient -o StrictHostKeyChecking=accept-new "
+
+	key = "/home/gateway/.ssh/id_ed25519"
+	# fallback to rsa if ed25519 isn't available
+	if ((getline < key) < 0)
+		key = "/home/gateway/.ssh/id_rsa"
+
+	if ((getline < key) >= 0) {
+		close(key)
+		cmd = cmd "-i " key " "
+	}
+
+
+	system(cmd dest)
 	exit
 }
 
-function getdest() {
+function promptdest() {
 	print ("Enter USER@HOST" (default_dest? " [" default_dest "]:" : ":"))
 }
