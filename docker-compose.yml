@@ -1,0 +1,10 @@
+services:
+  sshtty-gateway:
+    image: ghcr.io/luineth/sshtty-gateway:main
+    container_name: sshtty-gateway
+    ports:
+      - "23:2323"
+    #optionally, mount an .ssh folder to maintain known hosts and ssh keys
+    #volumes:
+    #  - path/to/.ssh:/home/gateway/.ssh
+    restart: unless-stopped
